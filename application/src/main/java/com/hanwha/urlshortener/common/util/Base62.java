@@ -10,7 +10,7 @@ public class Base62 {
   private static final Long BASE62_SIZE =62L;
 
   public String encode(Long id) {
-    StringBuilder shortURL = new StringBuilder("");
+    StringBuilder shortURL = new StringBuilder();
     while (id > 0) {
       shortURL.append(BASE62[(int)(id % BASE62_SIZE)]);
       id /= BASE62_SIZE;

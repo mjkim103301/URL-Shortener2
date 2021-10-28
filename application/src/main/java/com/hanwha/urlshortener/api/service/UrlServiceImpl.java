@@ -9,10 +9,11 @@ import com.hanwha.urlshortener.common.util.UrlCombiner;
 import com.hanwha.urlshortener.api.response.UrlRes;
 import com.hanwha.urlshortener.db.entity.Url;
 import com.hanwha.urlshortener.db.repository.UrlRepository;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UrlServiceImpl implements UrlService {
@@ -20,13 +21,15 @@ public class UrlServiceImpl implements UrlService {
   private final UrlRepository urlRepository;
   private final Base62 base62;
   private final UrlCombiner urlCombiner;
-  //private final LRUCache<String, Integer> lruCache;
+  private final LRUCache<String, String> lruCache;
+
   @Override
   public UrlRes shortenURL(String originalURL) {
-    Optional<Url> urlShorten = urlRepository.findByOriginalURL(originalURL);
-    if (urlShorten.isPresent()) {
+    String encodedId="";
+    if(lruCache.containsKey(originalURL)){
+      encodedId=lruCache.get(originalURL);
       String shortPath = urlCombiner
-          .combinePathWithHost("url/" + base62.encode(urlShorten.get().getId()));
+          .combinePathWithHost("url/" + encodedId);
       return new UrlRes(originalURL, shortPath);
     }
 
@@ -34,7 +37,10 @@ public class UrlServiceImpl implements UrlService {
         .save(Url.builder()
             .originalURL(originalURL)
             .build());
-    String shortPath = urlCombiner.combinePathWithHost("url/" + base62.encode(savedURL.getId()));
+    encodedId=base62.encode(savedURL.getId());
+    String shortPath = urlCombiner.combinePathWithHost("url/" + encodedId);
+    lruCache.put(originalURL, encodedId);
+
     return new UrlRes(originalURL, shortPath);
   }
 
