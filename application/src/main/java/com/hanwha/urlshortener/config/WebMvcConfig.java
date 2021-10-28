@@ -17,11 +17,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-    // configuration.addAllowedOrigin("*");
     configuration.addAllowedOriginPattern("*");
     configuration.addAllowedMethod("*");
     configuration.addAllowedHeader("*");
-    //configuration.addExposedHeader(JwtTokenUtil.HEADER_STRING);
     configuration.setAllowCredentials(true);
     configuration.setMaxAge(3600L);
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -40,21 +38,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
     registry.addResourceHandler("/webjars/**")
         .addResourceLocations("classpath:/META-INF/resources/webjars/");
 
-    /*
-     *
-     * Front-end에서 참조하는 URL을 /dist로 매핑
-     *
-     */
-    registry.addResourceHandler("/css/**")
-        .addResourceLocations("classpath:/dist/css/");
-    registry.addResourceHandler("/fonts/**")
-        .addResourceLocations("classpath:/dist/fonts/");
-    registry.addResourceHandler("/icons/**")
-        .addResourceLocations("classpath:/dist/icons/");
-    registry.addResourceHandler("/img/**")
-        .addResourceLocations("classpath:/dist/img/");
-    registry.addResourceHandler("/js/**")
-        .addResourceLocations("classpath:/dist/js/");
   }
 
   public Filter requestLoggingFilter() {

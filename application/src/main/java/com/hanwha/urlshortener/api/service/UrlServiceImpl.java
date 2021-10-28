@@ -14,12 +14,13 @@ import org.springframework.stereotype.Service;
 
 @RequiredArgsConstructor
 @Service
-public class UrlServiceImpl {
+public class UrlServiceImpl implements UrlService {
 
   private final UrlRepository urlShortenRepos;
   private final Base62 base62;
   private final UrlCombiner urlCombiner;
 
+  @Override
   public UrlRes shortenURL(String originURL) {
     Optional<Url> urlShorten = urlShortenRepos.findByOriginURL(originURL);
     if (urlShorten.isPresent()) {
@@ -38,6 +39,7 @@ public class UrlServiceImpl {
     return new UrlRes(originURL, shortPath, 0);
   }
 
+  @Override
   public String restoreURL(String shortURL) {
     int id = base62.decode(shortURL);
     return urlShortenRepos
