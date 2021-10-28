@@ -11,7 +11,7 @@ import lombok.Setter;
 @Getter
 public class UrlRes {
 
-  private String originURL;
+  private String originalURL;
 
   private String shortURL;
 

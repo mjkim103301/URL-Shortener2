@@ -26,7 +26,7 @@ public class Url extends TimeBaseEntity {
 
   @Lob
   @Column(nullable = false)
-  private String originURL;
+  private String originalURL;
 
   @Column(nullable = false)
   private int count = 0;

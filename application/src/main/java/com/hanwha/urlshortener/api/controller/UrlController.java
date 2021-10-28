@@ -37,7 +37,7 @@ public class UrlController {
   public ResponseEntity<?> UrlShortener(@RequestBody @Valid UrlReq urlReq) {
     UrlRes urlRes = null;
     try {
-      urlRes = urlServiceImpl.shortenURL(urlReq.getOriginURL());
+      urlRes = urlServiceImpl.shortenURL(urlReq.getOriginalURL());
       return ResponseEntity.status(HttpStatus.OK).body(urlRes);
     } catch (Exception e) {
       e.printStackTrace();
@@ -51,15 +51,15 @@ public class UrlController {
   @ApiOperation(value = "Url Redirect", notes = "짧은 URL을 입력받아 원래 URL로 리다이렉트한다.")
   public ResponseEntity<?> UrlRedirect(@PathVariable(value = "shortURL") String shortURL,
       HttpServletResponse httpServletResponse) {
-    String originURL = "";
+    String originalURL = "";
     try {
-      originURL = urlServiceImpl.restoreURL(shortURL);
-      httpServletResponse.sendRedirect(originURL);
-      return ResponseEntity.status(HttpStatus.OK).body(originURL);
+      originalURL = urlServiceImpl.restoreURL(shortURL);
+      httpServletResponse.sendRedirect(originalURL);
+      log.info("origin URL: {}", originalURL);
     } catch (Exception e) {
       e.printStackTrace();
     }
-    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(originURL);
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(originalURL);
 
   }
 }

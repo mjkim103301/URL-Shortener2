@@ -17,5 +17,5 @@ public class UrlReq {
 
   @URL(message = "not correct url format")
   @NotEmpty(message = "url empty error")
-  private String originURL;
+  private String originalURL;
 }

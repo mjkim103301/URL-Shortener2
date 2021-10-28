@@ -7,10 +7,10 @@ public interface UrlService {
   /**
    * 원래 URL로 짧은 URL을 만들어서 반환
    *
-   * @param originURL
+   * @param originalURL
    * @return 짧은 URL
    */
-  UrlRes shortenURL(String originURL);
+  UrlRes shortenURL(String originalURL);
 
   /**
    * 짧은 URL 재저장

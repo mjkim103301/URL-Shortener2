@@ -18,11 +18,11 @@ public class TimeBaseEntity {
 
   @CreationTimestamp
   @Column(updatable = false)
-  private LocalDateTime createDt;
+  private LocalDateTime createDateTime;
 
   @Setter
   @UpdateTimestamp
-  private LocalDateTime updateDt;
+  private LocalDateTime updateDateTime;
 }
 
 

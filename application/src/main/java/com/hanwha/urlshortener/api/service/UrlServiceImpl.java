@@ -21,22 +21,22 @@ public class UrlServiceImpl implements UrlService {
   private final UrlCombiner urlCombiner;
 
   @Override
-  public UrlRes shortenURL(String originURL) {
-    Optional<Url> urlShorten = urlShortenRepos.findByOriginURL(originURL);
+  public UrlRes shortenURL(String originalURL) {
+    Optional<Url> urlShorten = urlShortenRepos.findByOriginalURL(originalURL);
     if (urlShorten.isPresent()) {
       urlShorten.get().increaseCount(1);
       urlShortenRepos.save(urlShorten.get());
       String shortPath = urlCombiner
           .combinePathWithHost("url/" + base62.encode(urlShorten.get().getId()));
-      return new UrlRes(originURL, shortPath, urlShorten.get().getCount());
+      return new UrlRes(originalURL, shortPath, urlShorten.get().getCount());
     }
 
     Url savedURL = urlShortenRepos
         .save(Url.builder()
-            .originURL(originURL)
+            .originalURL(originalURL)
             .build());
     String shortPath = urlCombiner.combinePathWithHost("url/" + base62.encode(savedURL.getId()));
-    return new UrlRes(originURL, shortPath, 0);
+    return new UrlRes(originalURL, shortPath, 0);
   }
 
   @Override
@@ -45,6 +45,6 @@ public class UrlServiceImpl implements UrlService {
     return urlShortenRepos
         .findById(id)
         .orElseThrow(() -> new CustomException(ErrorType.URL_SHORTEN_NOT_FOUND))
-        .getOriginURL();
+        .getOriginalURL();
   }
 }
