@@ -28,10 +28,4 @@ public class Url extends TimeBaseEntity {
   @Column(nullable = false)
   private String originalURL;
 
-  @Column(nullable = false)
-  private int count = 0;
-
-  public void increaseCount(int num) {
-    count += num;
-  }
 }

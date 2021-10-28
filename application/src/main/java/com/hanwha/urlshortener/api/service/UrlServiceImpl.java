@@ -16,33 +16,31 @@ import org.springframework.stereotype.Service;
 @Service
 public class UrlServiceImpl implements UrlService {
 
-  private final UrlRepository urlShortenRepos;
+  private final UrlRepository urlRepository;
   private final Base62 base62;
   private final UrlCombiner urlCombiner;
 
   @Override
   public UrlRes shortenURL(String originalURL) {
-    Optional<Url> urlShorten = urlShortenRepos.findByOriginalURL(originalURL);
+    Optional<Url> urlShorten = urlRepository.findByOriginalURL(originalURL);
     if (urlShorten.isPresent()) {
-      urlShorten.get().increaseCount(1);
-      urlShortenRepos.save(urlShorten.get());
       String shortPath = urlCombiner
           .combinePathWithHost("url/" + base62.encode(urlShorten.get().getId()));
-      return new UrlRes(originalURL, shortPath, urlShorten.get().getCount());
+      return new UrlRes(originalURL, shortPath);
     }
 
-    Url savedURL = urlShortenRepos
+    Url savedURL = urlRepository
         .save(Url.builder()
             .originalURL(originalURL)
             .build());
     String shortPath = urlCombiner.combinePathWithHost("url/" + base62.encode(savedURL.getId()));
-    return new UrlRes(originalURL, shortPath, 0);
+    return new UrlRes(originalURL, shortPath);
   }
 
   @Override
   public String restoreURL(String shortURL) {
     int id = base62.decode(shortURL);
-    return urlShortenRepos
+    return urlRepository
         .findById(id)
         .orElseThrow(() -> new CustomException(ErrorType.URL_SHORTEN_NOT_FOUND))
         .getOriginalURL();

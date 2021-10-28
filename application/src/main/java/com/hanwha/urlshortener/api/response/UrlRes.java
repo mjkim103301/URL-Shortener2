@@ -15,5 +15,4 @@ public class UrlRes {
 
   private String shortURL;
 
-  private int count = 0;
 }
