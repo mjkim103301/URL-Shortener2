@@ -4,6 +4,7 @@ package com.hanwha.urlshortener.api.service;
 import com.hanwha.urlshortener.common.enums.ErrorType;
 import com.hanwha.urlshortener.common.exception.CustomException;
 import com.hanwha.urlshortener.common.util.Base62;
+import com.hanwha.urlshortener.common.util.LRUCache;
 import com.hanwha.urlshortener.common.util.UrlCombiner;
 import com.hanwha.urlshortener.api.response.UrlRes;
 import com.hanwha.urlshortener.db.entity.Url;
@@ -19,7 +20,7 @@ public class UrlServiceImpl implements UrlService {
   private final UrlRepository urlRepository;
   private final Base62 base62;
   private final UrlCombiner urlCombiner;
-
+  //private final LRUCache<String, Integer> lruCache;
   @Override
   public UrlRes shortenURL(String originalURL) {
     Optional<Url> urlShorten = urlRepository.findByOriginalURL(originalURL);
@@ -39,7 +40,7 @@ public class UrlServiceImpl implements UrlService {
 
   @Override
   public String getOriginalUrl(String shortURL) {
-    int id = base62.decode(shortURL);
+    Long id = base62.decode(shortURL);
     return urlRepository
         .findById(id)
         .orElseThrow(() -> new CustomException(ErrorType.URL_SHORTEN_NOT_FOUND))

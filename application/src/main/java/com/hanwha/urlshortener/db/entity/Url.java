@@ -22,7 +22,7 @@ public class Url extends TimeBaseEntity {
 
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Id
-  private int id;
+  private Long id;
 
   @Lob
   @Column(nullable = false)
