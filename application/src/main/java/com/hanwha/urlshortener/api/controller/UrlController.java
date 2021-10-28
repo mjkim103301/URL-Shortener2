@@ -50,7 +50,7 @@ public class UrlController {
       HttpServletResponse httpServletResponse) {
     String originalURL = "";
     try {
-      originalURL = urlServiceImpl.restoreURL(shortURL);
+      originalURL = urlServiceImpl.getOriginalUrl(shortURL);
       httpServletResponse.sendRedirect(originalURL);
       log.info("origin URL: {}", originalURL);
     } catch (Exception e) {

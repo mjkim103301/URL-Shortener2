@@ -13,10 +13,10 @@ public interface UrlService {
   UrlRes shortenURL(String originalURL);
 
   /**
-   * 짧은 URL 재저장
+   * 짧은 URL로 원래 URL 반환
    *
    * @param shortURL
-   * @return
+   * @return OriginURL
    */
-  String restoreURL(String shortURL);
+  String getOriginalUrl(String shortURL);
 }

@@ -38,7 +38,7 @@ public class UrlServiceImpl implements UrlService {
   }
 
   @Override
-  public String restoreURL(String shortURL) {
+  public String getOriginalUrl(String shortURL) {
     int id = base62.decode(shortURL);
     return urlRepository
         .findById(id)
