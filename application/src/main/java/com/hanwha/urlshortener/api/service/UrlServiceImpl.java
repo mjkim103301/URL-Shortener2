@@ -27,7 +27,7 @@ public class UrlServiceImpl implements UrlService {
       urlShorten.get().increaseCount(1);
       urlShortenRepos.save(urlShorten.get());
       String shortPath = urlCombiner
-          .combinePathWithHost("short/" + base62.encode(urlShorten.get().getId()));
+          .combinePathWithHost("url/" + base62.encode(urlShorten.get().getId()));
       return new UrlRes(originURL, shortPath, urlShorten.get().getCount());
     }
 
@@ -35,7 +35,7 @@ public class UrlServiceImpl implements UrlService {
         .save(Url.builder()
             .originURL(originURL)
             .build());
-    String shortPath = urlCombiner.combinePathWithHost("short/" + base62.encode(savedURL.getId()));
+    String shortPath = urlCombiner.combinePathWithHost("url/" + base62.encode(savedURL.getId()));
     return new UrlRes(originURL, shortPath, 0);
   }
 
