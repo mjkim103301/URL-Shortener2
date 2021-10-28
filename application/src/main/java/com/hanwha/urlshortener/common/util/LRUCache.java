@@ -13,7 +13,7 @@ public class LRUCache<K, V> {
   static final int INITIAL_CAPACITY = 24;
   static final int MAX_CAPACITY = 25000000;
   static final int MAX_STORAGE = 400000000; // 400MB
-  static final int ITEM_SIZE =16;
+  static final int ITEM_SIZE = 16;
   static int CURRENT_STORAGE = 0;
 
   private ConcurrentHashMap<K, V> map = new ConcurrentHashMap<>(
@@ -25,11 +25,10 @@ public class LRUCache<K, V> {
     if (map.size() >= MAX_CAPACITY || CURRENT_STORAGE >= MAX_STORAGE) {
       log.info("maxCapacity of cache reached");
       log.info("maxCapacity: {}, Current_Storage: {}", MAX_CAPACITY, CURRENT_STORAGE);
-      K item = linkedQueue.poll();
+      linkedQueue.poll();
 
-      map.remove(item);
+      map.remove(key);
       CURRENT_STORAGE -= ITEM_SIZE;
-      //TODO DB에서도 값 제거
     }
 
     if (map.contains(key)) {
@@ -56,7 +55,7 @@ public class LRUCache<K, V> {
     linkedQueue.clear();
   }
 
-  public boolean containsKey(K key){
+  public boolean containsKey(K key) {
     return map.containsKey(key);
   }
 }
