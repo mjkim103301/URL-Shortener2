@@ -1,4 +1,4 @@
-package com.hanwha.urlshortener.common.config;
+package com.hanwha.urlshortener.config;
 
 
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +33,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .csrf().disable()
         .headers().frameOptions().disable()
         .and()
-        .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // 토큰 기반 인증이므로 세션 사용 하지않음
         .and()
         .authorizeRequests()
         .antMatchers("/swagger-resources/**").permitAll()

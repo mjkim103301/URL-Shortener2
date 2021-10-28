@@ -1,4 +1,4 @@
-package com.hanwha.urlshortener.common.config;
+package com.hanwha.urlshortener.config;
 
 import javax.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

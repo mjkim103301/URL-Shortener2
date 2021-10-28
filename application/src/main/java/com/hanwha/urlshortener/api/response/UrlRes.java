@@ -1,4 +1,4 @@
-package com.hanwha.urlshortener.urlshorten.dto;
+package com.hanwha.urlshortener.api.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,11 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @Setter
 @Getter
-public class ShortenURLResponse {
-    private String originURL;
+public class UrlRes {
 
-    private String shortURL;
+  private String originURL;
 
-    private int count=0;
+  private String shortURL;
+
+  private int count = 0;
 }

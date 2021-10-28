@@ -15,13 +15,14 @@ import org.hibernate.annotations.UpdateTimestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TimeBaseEntity {
-    @CreationTimestamp
-    @Column(updatable = false)
-    private LocalDateTime createDt;
 
-    @Setter
-    @UpdateTimestamp
-    private LocalDateTime updateDt;
+  @CreationTimestamp
+  @Column(updatable = false)
+  private LocalDateTime createDt;
+
+  @Setter
+  @UpdateTimestamp
+  private LocalDateTime updateDt;
 }
 
 
