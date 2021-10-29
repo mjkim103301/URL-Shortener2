@@ -26,20 +26,17 @@ public class UrlServiceImpl implements UrlService {
   @Override
   public UrlRes shortenURL(String originalURL) {
     String encodedId = "";
+    String shortPath = "";
     if (lruCache.containsKey(originalURL)) {
       encodedId = lruCache.get(originalURL);
-      String shortPath = urlCombiner
-          .combinePathWithHost("url/" + encodedId);
-      return new UrlRes(originalURL, shortPath);
+    } else {
+      Url savedURL = urlRepository.save(Url.builder()
+          .originalURL(originalURL)
+          .build());
+      encodedId = base62.encode(savedURL.getId());
+      lruCache.put(originalURL, encodedId);
     }
-
-    Url savedURL = urlRepository
-        .save(Url.builder()
-            .originalURL(originalURL)
-            .build());
-    encodedId = base62.encode(savedURL.getId());
-    String shortPath = urlCombiner.combinePathWithHost("url/" + encodedId);
-    lruCache.put(originalURL, encodedId);
+    shortPath = urlCombiner.combinePathWithHost("url/" + encodedId);
 
     return new UrlRes(originalURL, shortPath);
   }
